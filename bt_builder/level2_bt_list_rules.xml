@@ -1,0 +1,51 @@
+<root>
+    <rule>
+        <pattern>(.*?) and (.*?), then (.*)</pattern>
+        <demo>Detect the package type and grab it, then place it at the target location.</demo>
+    </rule>
+    <rule>
+        <pattern>(.*?) (to.*)(at the same time)</pattern>
+        <demo>Grab the package and mail it to the target location at the same time.</demo>
+    </rule>
+    <rule>
+        <pattern>(.*?), (.*?), and then (.*?) (to .*?)</pattern>
+        <demo>Check the safety of the environment, grab the package, and then move it to the target location.</demo>
+    </rule>
+    <rule>
+        <pattern>(.*?) if (.*?), (.*?) and (.*?)</pattern>
+        <demo>interrupt the assembly if the environment is unsafe, otherwise assemble the parts and check the quality.
+        </demo>
+    </rule>
+    <rule>
+          <pattern>(assemble .*?) and (package .*?)</pattern>
+          <demo>task execution: assemble the required parts and package them securely for shipping</demo>
+    </rule>
+    <rule>
+          <pattern>(retrieve .*? positioning requirements) and (check .*? assembly)</pattern>
+          <demo>retrieve the parts that meet the positioning requirements and check the quality after assembly</demo>
+    </rule>
+    <rule>
+          <pattern>(retrieve .*?) and (position .*? before assembly)</pattern>
+          <demo>retrieve the necessary parts and position them correctly before assembly</demo>
+    </rule>
+    <rule>
+          <pattern>grab the necessary parts, position them correctly, and then assemble the parts</pattern>
+          <demo>grab the necessary parts, position them correctly, and then assemble the parts</demo>
+    </rule>
+    <rule>
+          <pattern>(Check .*?), and then (assemble .*?)</pattern>
+          <demo>check the component status, and then assemble the parts</demo>
+    </rule>
+    <rule>
+          <pattern>(check .*?), and then (check .*?)</pattern>
+          <demo>check the component status, and then check the assembly quality</demo>
+    </rule>
+    <rule>
+          <pattern>(request .*?) and (grab .*? if necessary)</pattern>
+          <demo>request human assistance and grab the parts at the same time if necessary</demo>
+    </rule>
+    <rule>
+          <pattern>(check .*? )are available, then start the assembly process</pattern>
+          <demo>check that all parts needed for assembly are available, then start the assembly process</demo>
+    </rule>
+</root>

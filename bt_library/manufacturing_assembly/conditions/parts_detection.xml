@@ -4,5 +4,6 @@
         <synonyms name="parts inspection"/>
         <synonyms name="零件检测"/>
         <synonyms name="是否存在需要装配的零件"/>
+        <synonyms name="check that all parts needed for assembly "/>
     </condition>
 </root>

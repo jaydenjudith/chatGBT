@@ -10,8 +10,8 @@ def get_bt(bt_list):
         else:
             node = create_bt_node(bt['name'])
             root.add_child(node)
-    return root, "SUCCESS"
-bt, status_info = get_bt(bt_list)
+    return root
+bt = get_bt(bt_list)
         </code>
     </rule>
     <rule>
@@ -28,8 +28,8 @@ def get_bt(bt_list):
     for bt in bt_list:
         node = create_bt_node(bt['name'])
         root.add_child(node)
-    return root, "SUCCESS"
-bt, status_info = get_bt(bt_list)
+    return root
+bt = get_bt(bt_list)
         </code>
     </rule>
 </root>

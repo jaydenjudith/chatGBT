@@ -6,5 +6,6 @@
         <synonyms name="并行"/>
         <synonyms name="一起"/>
         <synonyms name="并发"/>
+        <synonyms name="grab the parts at the same time if necessary"/>
     </controller>
 </root>

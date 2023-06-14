@@ -4,5 +4,7 @@
         <synonyms name="component status"/>
         <synonyms name="零件状态"/>
         <synonyms name="零件是否损坏或缺失"/>
+        <synonyms name="check the component status"/>
+        <synonyms name="check the component status"/>
     </condition>
 </root>

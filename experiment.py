@@ -45,10 +45,10 @@ if __name__ == '__main__':
         print(bt_dataset_string)
         print("-" * 30 + "  parser info:  " + "-" * 80)
         # 2 读取数据集的 desc，然后使用 text2bt 进行行为树生成
-        bt, bt_desc = text_to_bt_v2(desc)
+        result = instruction_to_bt(desc)
         # 3 查看 text2bt 的能力，是否能生成行为树。生成行为树是否正确两种
         # 3.1 是否生成行为树
-        if bt_desc == "SUCCESS":
+        if result.status_code == 1:
             # 能够生成行为树，加入到结果中
             if level == "1":
                 can_create_level1_count += 1
@@ -71,7 +71,7 @@ if __name__ == '__main__':
             can_create_all_percent = (can_create_level1_count + can_create_level2_count + can_create_level3_count) / all_count
             print("all_count: "+str(all_count))
             print("can_create_all_percent: " + str(can_create_all_percent))
-            save_bt2xml(bt, "temp", dir_tasks_reuse + "temp/temp.xml")
+            save_bt2xml(result.bt, "temp", dir_tasks_reuse + "temp/temp.xml")
             # 3.2 生成的行为树和数据集行为树进行对比。 词向量。
             # 读取这个xml
             bt_chatgbt_xml = ET.parse(dir_tasks_reuse + "temp/temp.xml").getroot()[0][0]
@@ -100,10 +100,10 @@ if __name__ == '__main__':
                 correct_create_all_percent = (correct_create_level1_count + correct_create_level2_count + correct_create_level3_count) / all_count
                 print("correct_create_all_percent: " + str(correct_create_all_percent))
             else:
-                print(bt_desc)
+                print(result.status_info)
                 can_not_correct_create_bt_desc_list.append(desc)
         else:
-            print(bt_desc)
+            print(result.status_info)
             can_not_create_bt_desc_list.append(desc)
 
     print(can_not_create_bt_desc_list)

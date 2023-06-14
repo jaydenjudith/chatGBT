@@ -1,4 +1,5 @@
 import re
+from lxml import etree
 import py_trees
 from bt_language_parser.parser import *
 from bt_library.family_service.conditions import conditions
@@ -13,8 +14,189 @@ from bt_library.manufacturing_assembly.conditions import conditions5
 from bt_library.manufacturing_assembly.actions import actions5
 
 
-def add_synonyms_to_bt_library(synonyms):
-    pass
+class Result:
+    def __init__(self, status_code, status_info, bt, bt_list):
+        self.status_code = status_code
+        self.status_info = status_info
+        self.bt = bt
+        self.bt_list = bt_list
+
+    def print_values(self):
+        print(f"bt: {self.bt}, status_code: {self.status_code}, status_info: {self.status_info}")
+
+
+def add_synonyms_to_bt_library(synonyms, node_name, node_type):
+    """
+    :param synonyms:
+    :param node_name:
+    :param node_type:  0 tasks_reuse 1 controllers 2 conditions 3 actions
+    :return:
+    """
+    bt_node_dir = None
+    if node_type == 0:
+        bt_node_dir = dir_bt_library + robot_area + "tasks_reuse"
+        node_type = "task"
+    elif node_type == 1:
+        bt_node_dir = dir_bt_library + robot_area + "controllers"
+        node_type = "controller"
+    elif node_type == 2:
+        bt_node_dir = dir_bt_library + robot_area + "conditions"
+        node_type = "condition"
+    elif node_type == 3:
+        bt_node_dir = dir_bt_library + robot_area + "actions"
+        node_type = "action"
+    else:
+        print("ERROR: node_type is -1")
+
+    files = glob.glob(os.path.join(bt_node_dir, '*'))
+    for file_name in files:
+        if file_name.endswith('.xml') and node_name in file_name:
+            print("synonyms save dir: " + file_name)
+            with open(file_name, 'r', encoding="utf-8") as file:
+                lines = file.readlines()
+            # 找到最后一个非空行的索引
+            last_non_empty_line = next((i for i, line in reversed(list(enumerate(lines))) if line.strip()), None)
+            # 如果找到了非空行，那么就将其删除
+            if last_non_empty_line is not None:
+                del lines[last_non_empty_line - 1:]
+            # 写入新的行
+            lines.append("        <synonyms name=\"" + synonyms + "\"/>\n")
+            lines.append("    </" + node_type + ">\n")
+            lines.append("</root>")
+            # 将新的内容写入文件
+            with open(file_name, 'w', encoding="utf-8") as f:
+                f.writelines(lines)
+            return True
+    return False
+
+
+def save_bt_combine_level3_file(filename, sent, code):
+    try:
+        with open(filename, 'r') as file:
+            lines = file.readlines()
+            # 找到最后一个非空行的索引
+        last_non_empty_line = next((i for i, line in reversed(list(enumerate(lines))) if line.strip()), None)
+        # 如果找到了非空行，那么就将其删除
+        if last_non_empty_line is not None:
+            del lines[last_non_empty_line]
+        # 写入新的行
+        lines.append("    <rule>\n")
+        lines.append("          <sent>" + sent + "</sent>\n")
+        lines.append("          <code>\n")
+        lines.append(code)
+        lines.append("          </code>\n")
+        lines.append("    </rule>\n")
+        lines.append("</root>\n")
+        # 将新的内容写入文件
+        with open(filename, 'w') as file:
+            file.writelines(lines)
+        return True
+    except Exception as e:
+        print(e)
+        return False
+
+
+def save_bt_combine_level2_file(filename, pattern, code):
+    try:
+        with open(filename, 'r') as file:
+            lines = file.readlines()
+            # 找到最后一个非空行的索引
+        last_non_empty_line = next((i for i, line in reversed(list(enumerate(lines))) if line.strip()), None)
+        # 如果找到了非空行，那么就将其删除
+        if last_non_empty_line is not None:
+            del lines[last_non_empty_line]
+        # 写入新的行
+        lines.append("    <rule>\n")
+        lines.append("          <pattern>" + pattern + "</pattern>\n")
+        lines.append("          <code>\n")
+        lines.append(code)
+        lines.append("          </code>\n")
+        lines.append("    </rule>\n")
+        lines.append("</root>\n")
+        # 将新的内容写入文件
+        with open(filename, 'w') as file:
+            file.writelines(lines)
+        return True
+    except Exception as e:
+        print(e)
+        return False
+
+
+def save_bt_combine_level1_file(filename, pattern, code):
+    try:
+        with open(filename, 'r') as file:
+            lines = file.readlines()
+            # 找到最后一个非空行的索引
+        last_non_empty_line = next((i for i, line in reversed(list(enumerate(lines))) if line.strip()), None)
+        # 如果找到了非空行，那么就将其删除
+        if last_non_empty_line is not None:
+            del lines[last_non_empty_line]
+        # 写入新的行
+        lines.append("    <rule>\n")
+        lines.append("          <pattern>" + pattern + "</pattern>\n")
+        lines.append("          <code>\n")
+        lines.append(code)
+        lines.append("          </code>\n")
+        lines.append("    </rule>\n")
+        lines.append("</root>\n")
+        # 将新的内容写入文件
+        with open(filename, 'w') as file:
+            file.writelines(lines)
+        return True
+    except Exception as e:
+        print(e)
+        return False
+
+
+def save_bt_desc_list_to_level3_file(filename, sent, steps):
+    try:
+        with open(filename, 'r') as file:
+            lines = file.readlines()
+            # 找到最后一个非空行的索引
+        last_non_empty_line = next((i for i, line in reversed(list(enumerate(lines))) if line.strip()), None)
+        # 如果找到了非空行，那么就将其删除
+        if last_non_empty_line is not None:
+            del lines[last_non_empty_line]
+        # 写入新的行
+        lines.append("    <rule>\n")
+        lines.append("          <sent>" + sent + "</sent>\n")
+        lines.append("          <steps>" + sent + "</steps>\n")
+        for step in steps:
+            lines.append("              <step>" + step.text + "</step>\n")
+        lines.append("          </steps>\n")
+        lines.append("    </rule>\n")
+        lines.append("</root>\n")
+        # 将新的内容写入文件
+        with open(filename, 'w') as file:
+            file.writelines(lines)
+        return True
+    except Exception as e:
+        print(e)
+        return False
+
+
+def save_pattern_to_level2_file(filename, pattern, sent):
+    try:
+        with open(filename, 'r') as file:
+            lines = file.readlines()
+            # 找到最后一个非空行的索引
+        last_non_empty_line = next((i for i, line in reversed(list(enumerate(lines))) if line.strip()), None)
+        # 如果找到了非空行，那么就将其删除
+        if last_non_empty_line is not None:
+            del lines[last_non_empty_line]
+        # 写入新的行
+        lines.append("    <rule>\n")
+        lines.append("          <pattern>" + pattern + "</pattern>\n")
+        lines.append("          <demo>" + sent + "</demo>\n")
+        lines.append("    </rule>\n")
+        lines.append("</root>\n")
+        # 将新的内容写入文件
+        with open(filename, 'w') as file:
+            file.writelines(lines)
+        return True
+    except Exception as e:
+        print(e)
+        return False
 
 
 def xml2bt(xml_root):
@@ -45,9 +227,9 @@ def save_bt2xml(bt, name, save_dir):
     :return:
     """
     # 创建根元素
-    root = ET.Element('root')
+    root = etree.Element('root')
     # 将树形结构转换为XML元素并添加到根元素中
-    task_node = ET.SubElement(root, "task", {"name": name})
+    task_node = etree.SubElement(root, "task", {"name": name})
 
     # 将树形结构节点转换为XML元素
     def convert_node(node, parent):
@@ -56,7 +238,7 @@ def save_bt2xml(bt, name, save_dir):
         bt_name = node.name
         if "Index" in bt_name:
             bt_name = bt_name.replace("Index", "")
-        xml_node = ET.Element(bt_name, {"name": node.name})
+        xml_node = etree.Element(bt_name, {"name": node.name})
         # 将XML元素添加到父元素中
         parent.append(xml_node)
         # 递归处理所有子节点
@@ -65,8 +247,8 @@ def save_bt2xml(bt, name, save_dir):
 
     convert_node(bt, task_node)
     # 创建XML树对象并将其写入硬盘中
-    xml_tree = ET.ElementTree(root)
-    xml_tree.write(save_dir, encoding='utf-8', xml_declaration=True)
+    xml_tree = etree.ElementTree(root)
+    xml_tree.write(save_dir, encoding='utf-8', pretty_print=True, xml_declaration=True)
     return root
 
 
@@ -254,7 +436,7 @@ def find_bt_reuse(infos, token):
     for info in infos:
         # 1 对比 infos的比较 name 和 text
         root_name = info['root_name']
-        if root_name in token:
+        if root_name == token:
             return root_name
         # 2 比较 root_vector 向量
         root_vector = info['root_vector']
@@ -292,7 +474,7 @@ def find_bt_node(infos, token):
         # 3 对比 同义词名字 和 同义词向量
         for synonym in info['synonyms']:
             synonym_name = synonym['synonyms_name']
-            if synonym_name in token:
+            if synonym_name == token:
                 print(token + " 对比的是synonyms_name: " + synonym_name)
                 return root_name
             synonyms_vector = synonym['synonyms_vector']

@@ -3,5 +3,7 @@
         <synonyms name="assemble"/>
         <synonyms name="装配"/>
         <synonyms name="完成零件的装配操作"/>
+        <synonyms name="start the assembly process"/>
+        <synonyms name="otherwise assemble the parts"/>
     </action>
 </root>

@@ -1,4 +1,5 @@
 import os
+import re
 import spacy
 import jieba
 import numpy as np
@@ -20,9 +21,12 @@ def cosine_similarity(vector1, vector2):
     # 计算向量A和向量B的范数
     norm_1 = np.linalg.norm(vector1)
     norm_2 = np.linalg.norm(vector2)
-    # 计算余弦相似度
-    cosine_similarities = np.dot(vector1, vector2) / (norm_1 * norm_2)
-    return cosine_similarities
+    # 如果两个向量的范数都不为零，则计算余弦相似度
+    if norm_1 > 0 and norm_2 > 0:
+        cosine_similarities = np.dot(vector1, vector2) / (norm_1 * norm_2)
+        return cosine_similarities
+    else:
+        return -1
 
 
 def get_language_level(sent):
@@ -32,7 +36,8 @@ def get_language_level(sent):
         :param sent:
         :return: 1：行为树描述级  2：流程描述级  3：任务描述级
         """
-    if "child node" in sent or "子节点" in sent:
+    pattern = "(Create|Generate|Execute|Produce|Add).*to.*"
+    if "child node" in sent or "子节点" in sent or re.match(pattern, sent, re.IGNORECASE):
         return 1
     elif "execution task" in sent or "执行任务" in sent:
         return 3
@@ -110,54 +115,7 @@ def get_bts_info(bt_dir):
     return bts_info
 
 
-def get_robot_area():
-    return robot_area
 
-
-def get_bts_abilities_prompt():
-    perception_abilities = []
-    for condition_info in conditions_info:
-        ability = condition_info['synonyms'][-1]['synonyms_name']
-        perception_abilities.append(ability)
-    action_abilities = []
-    for action_info in actions_info:
-        ability = action_info['synonyms'][-1]['synonyms_name']
-        action_abilities.append(ability)
-    infos = "Perception abilities: \n"
-    infos += str(perception_abilities) + "\nAction abilities: \n"
-    infos += str(action_abilities)
-    return infos
-
-
-def get_bts_info_prompt():
-    infos = " "
-    reuse_content = "'reuse bt' name: \n" + ", ".join([str(reuse_info['root_name']) for reuse_info in reuses_info])
-    infos += str(reuse_content) + "\n'controller' bt node name and its synonyms:\n"
-    controller_content = []
-    for controller_info in controllers_info:
-        synonyms_list = []
-        for synonyms in controller_info['synonyms']:
-            synonyms_list.append(synonyms['synonyms_name'])
-        controller_info_str = controller_info['root_name'] + ": " + str(synonyms_list)
-        controller_content.append(controller_info_str)
-    infos += str(controller_content) + "\n'condition' bt node name and its synonyms:\n"
-    condition_content = []
-    for condition_info in conditions_info:
-        synonyms_list = []
-        for synonyms in condition_info['synonyms']:
-            synonyms_list.append(synonyms['synonyms_name'])
-        condition_info_str = condition_info['root_name'] + ": " + str(synonyms_list)
-        condition_content.append(condition_info_str)
-    infos += str(condition_content) + "\n'action' bt node name and its synonyms:\n"
-    action_content = []
-    for action_info in actions_info:
-        synonyms_list = []
-        for synonyms in action_info['synonyms']:
-            synonyms_list.append(synonyms['synonyms_name'])
-        condition_info_str = action_info['root_name'] + ": " + str(synonyms_list)
-        action_content.append(condition_info_str)
-    infos += str(action_content)
-    return infos
 
 
 def language_parser(tasks_reuse_dir, controllers_dir, dir_conditions_dir, actions_dir):
@@ -207,18 +165,15 @@ def language_parser(tasks_reuse_dir, controllers_dir, dir_conditions_dir, action
 
 
 dir_root = "./"
-# dir_bt_library = "bt_library/household_cleaning/"
-# dir_bt_library = "bt_library/kitchen_cooking/"
-# dir_bt_library = "bt_library/logistics_packaging/"
-dir_bt_library = "bt_library/manufacturing_assembly/"
-dir_tasks_reuse = dir_bt_library + "tasks_reuse/"
-dir_controllers = dir_bt_library + "controllers/"
-dir_conditions = dir_bt_library + "conditions/"
-dir_actions = dir_bt_library + "actions/"
-# robot_area = "household cleaning"
-# robot_area = "kitchen_cooking"
-# robot_area = "logistics packaging"
-robot_area = "manufacturing assembly"
+dir_bt_library = "bt_library/"
+robot_area = "manufacturing_assembly/"
+# robot_area = "logistics_packaging/"
+# robot_area = "kitchen_cooking/"
+# robot_area = "household_cleaning/"
+dir_tasks_reuse = dir_bt_library + robot_area + "tasks_reuse/"
+dir_controllers = dir_bt_library + robot_area + "controllers/"
+dir_conditions = dir_bt_library + robot_area + "conditions/"
+dir_actions = dir_bt_library + robot_area + "actions/"
 
 reuses_info, controllers_info, conditions_info, actions_info = \
     language_parser(dir_tasks_reuse, dir_controllers, dir_conditions, dir_actions)

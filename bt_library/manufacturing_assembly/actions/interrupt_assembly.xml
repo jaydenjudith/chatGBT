@@ -4,5 +4,6 @@
         <synonyms name="break assembly"/>
         <synonyms name="中断装配"/>
         <synonyms name="在检测到不安全情况时中断装配"/>
+        <synonyms name="interrupt the assembly"/>
     </action>
 </root>

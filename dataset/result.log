@@ -1,0 +1,866 @@
+C:\Users\12633\.conda\envs\chat-gbt\python.exe D:/Projects_AI/chat_gbt/experiment.py
+Building prefix dict from the default dictionary ...
+Loading model from cache C:\Users\12633\AppData\Local\Temp\jieba.cache
+####################   begin:   language pretreatment   ######################################################################
+------------------------------   reuse tasks  --------------------------------------------------------------------------------
+name: avoid_obstacle
+Loading model cost 0.424 seconds.
+Prefix dict has been built successfully.
+------------------------------   controllers  --------------------------------------------------------------------------------
+name: parallel, selector, sequence
+synonyms:
+parallel: ['at the same time', 'simultaneously', '同时', '并行', '一起', '并发', 'grab the parts at the same time if necessary']
+selector: ['fallback', 'choose', '任一', '选择']
+sequence: ['Sequence', 'order', '顺序', '依次', '按序']
+------------------------------   conditions   --------------------------------------------------------------------------------
+name: correct_positioning, envs_safety, parts_detection, part_status
+synonyms:
+correct_positioning: ['correct positioning', 'correctly positioned', '正确定位', '是否正确定位零件']
+envs_safety: ['envs safety', 'environment safety', 'env safety', 'environmental safety', 'environmental security', '环境安全', '是否存在危险物品或障碍物', 'the environment is unsafe']
+parts_detection: ['parts detection', 'parts inspection', '零件检测', '是否存在需要装配的零件', 'check that all parts needed for assembly ']
+part_status: ['part status', 'component status', '零件状态', '零件是否损坏或缺失']
+------------------------------     actions    --------------------------------------------------------------------------------
+name: assembly, check_assembly, grab_parts, interrupt_assembly, positioning_parts, request_help
+synonyms:
+assembly: ['assemble', '装配', '完成零件的装配操作', 'start the assembly process', 'otherwise assemble the parts']
+check_assembly: ['check assembly', 'check the assembly', '检查装配', '检查装配的质量和正确性']
+grab_parts: ['grab parts', 'grab', 'grabbing parts', '抓取零件', '抓取需要装配的零件']
+interrupt_assembly: ['interrupt assembly', 'break assembly', '中断装配', '在检测到不安全情况时中断装配', 'interrupt the assembly']
+positioning_parts: ['positioning parts', 'locating parts', '定位零件', '将零件放置在正确的位置', 'position the parts', 'position them correctly before assembly']
+request_help: ['request help', 'ask for help', '请求帮助', '发送请求以获取人类操作员的帮助', 'request human assistance']
+####################   end:     language pretreatment   ######################################################################
+
+<< openai key >>: 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
+##############################################################################################################################
+------------------------------  dataset info: --------------------------------------------------------------------------------
+1
+Create a sequence node with child nodes correct_positioning and check_assembly.
+<sequence name="sequence" type="controller">
+                <correct_positioning name="correct_positioning" type="condition" />
+                <check_assembly name="check_assembly" type="action" />
+            </sequence>
+        
+------------------------------  parser info:  --------------------------------------------------------------------------------
+<< Input sent >>: create a sequence node with child nodes correct_positioning and check_assembly
+<< Sent level >>: 1
+<< create_level1_bt_list >> method is executed !!!
+sequence 对比的是root_name: sequence
+correct_positioning 对比的是root_name: correct_positioning
+check_assembly 对比的是root_name: check_assembly
+<< bt_list >>: [{'name': 'sequence', 'type': 1}, {'name': 'correct_positioning', 'type': 2}, {'name': 'check_assembly', 'type': 3}]
+<< combine_level1_bt >> method is executed !!!
+level1_count: 2
+can_create_level1_count: 1
+can_create_level1_count_percent: 0.5
+level2_count: 1
+can_create_level2_count: 0
+can_create_level2_count_percent: 0.0
+level3_count: 1
+can_create_level3_count: 0
+can_create_level3_count_percent: 0.0
+all_count: 1
+can_create_all_percent: 1.0
+<sequence name="sequence">
+      <correct_positioning name="correct_positioning" />
+      <check_assembly name="check_assembly" />
+    </sequence>
+  
+0.9696878661811553
+correct_create_level1_count: 1
+correct_create_level1_count_percent: 0.5
+correct_create_level2_count: 0
+correct_create_level2_count_percent: 0.0
+correct_create_level3_count: 0
+correct_create_level3_count_percent: 0.0
+correct_create_all_percent: 1.0
+##############################################################################################################################
+------------------------------  dataset info: --------------------------------------------------------------------------------
+2
+Grab and position the parts, then start the assembly process.
+<sequence name="sequence" type="controller">
+                <grab_parts name="grab_parts" type="action" />
+                <positioning_parts name="positioning_parts" type="action" />
+                <assembly name="assembly" type="controller">
+                    <assembly_parts name="assembly_parts" type="action" />
+                </assembly>
+            </sequence>
+        
+------------------------------  parser info:  --------------------------------------------------------------------------------
+<< Input sent >>: grab and position the parts, then start the assembly process
+<< Sent level >>: 2
+<< create_level2_bt_list >> method is executed !!!
+<< bt_desc_list >>: ['grab', 'position the parts', 'start the assembly process']
+grab 对比的是synonyms_name: grab
+position the parts 对比的是synonyms_vector: otherwise assemble the parts
+start the assembly process 对比的是synonyms_name: start the assembly process
+<< bt_list >>: [{'name': 'grab_parts', 'type': 3}, {'name': 'assembly', 'type': 3}, {'name': 'assembly', 'type': 3}]
+level1_count: 2
+can_create_level1_count: 1
+can_create_level1_count_percent: 0.5
+level2_count: 2
+can_create_level2_count: 1
+can_create_level2_count_percent: 0.5
+level3_count: 1
+can_create_level3_count: 0
+can_create_level3_count_percent: 0.0
+all_count: 2
+can_create_all_percent: 1.0
+<sequence name="sequence">
+      <grab_parts name="grab_parts" />
+      <assembly name="assembly" />
+      <assembly name="assembly" />
+    </sequence>
+  
+0.922216056317147
+correct_create_level1_count: 1
+correct_create_level1_count_percent: 0.5
+correct_create_level2_count: 1
+correct_create_level2_count_percent: 0.5
+correct_create_level3_count: 0
+correct_create_level3_count_percent: 0.0
+correct_create_all_percent: 1.0
+##############################################################################################################################
+------------------------------  dataset info: --------------------------------------------------------------------------------
+2
+Interrupt the assembly if the environment is unsafe, otherwise assemble the parts and check the quality.
+        
+<selector name="selector" type="controller">
+                <envs_safety name="envs_safety" type="condition" />
+                <sequence name="sequence" type="controller">
+                    <assembly name="assembly" type="controller">
+                        <assembly_parts name="assembly_parts" type="action" />
+                    </assembly>
+                    <check_assembly name="check_assembly" type="action" />
+                </sequence>
+                <interrupt_assembly name="interrupt_assembly" type="action" />
+            </selector>
+        
+------------------------------  parser info:  --------------------------------------------------------------------------------
+<< Input sent >>: interrupt the assembly if the environment is unsafe, otherwise assemble the parts and check the quality.
+
+<< Sent level >>: 2
+<< create_level2_bt_list >> method is executed !!!
+<< bt_desc_list >>: ['interrupt the assembly', 'the environment is unsafe', 'otherwise assemble the parts', '']
+interrupt the assembly 对比的是synonyms_name: interrupt the assembly
+the environment is unsafe 对比的是synonyms_name: the environment is unsafe
+otherwise assemble the parts 对比的是synonyms_name: otherwise assemble the parts
+Error: No corresponding behavior tree node is parsed by llm.  bt_desc '' 
+<< bt_list >>: [{'name': 'interrupt_assembly', 'type': 3}, {'name': 'envs_safety', 'type': 2}, {'name': 'assembly', 'type': 3}]
+Error llm: syntax error: line 1, column 0
+Error llm: 'assembly' object has no attribute 'add_child'
+Error llm: 'assembly' object has no attribute 'add_child'
+Error: llm can't generate rules !!!
+##############################################################################################################################
+------------------------------  dataset info: --------------------------------------------------------------------------------
+2
+Request human assistance and grab the parts at the same time if necessary.
+<parallel name="parallel" type="controller">
+                <grab_parts name="grab_parts" type="action" />
+                <request_help name="request_help" type="action" />
+            </parallel>
+        
+------------------------------  parser info:  --------------------------------------------------------------------------------
+<< Input sent >>: request human assistance and grab the parts at the same time if necessary
+<< Sent level >>: 2
+<< create_level2_bt_list >> method is executed !!!
+<< bt_desc_list >>: ['request human assistance', 'grab the parts at the same time if necessary']
+request human assistance 对比的是synonyms_name: request human assistance
+grab the parts at the same time if necessary 对比的是synonyms_name: grab the parts at the same time if necessary
+<< bt_list >>: [{'name': 'request_help', 'type': 3}, {'name': 'parallel', 'type': 1}]
+Error llm: 'request_help' object has no attribute 'add_child'
+Error llm: 'request_help' object has no attribute 'add_child'
+Error llm: 'request_help' object has no attribute 'add_child'
+Error: llm can't generate rules !!!
+##############################################################################################################################
+------------------------------  dataset info: --------------------------------------------------------------------------------
+3
+Task execution: Assemble the required parts and package them securely for shipping.
+<sequence name="sequence" type="controller">
+                <correct_positioning name="correct_positioning" type="condition" />
+                <assembly name="assembly" type="controller">
+                    <assembly_parts name="assembly_parts" type="action" />
+                </assembly>
+                <package name="package" type="action" />
+            </sequence>
+        
+------------------------------  parser info:  --------------------------------------------------------------------------------
+<< Input sent >>: task execution: assemble the required parts and package them securely for shipping
+<< Sent level >>: 2
+<< create_level2_bt_list >> method is executed !!!
+<< bt_desc_list >>: ['assemble the required parts', 'package ']
+assemble the required parts 对比的是synonyms_vector: otherwise assemble the parts
+Error: No corresponding behavior tree node is parsed by llm.  bt_desc 'package ' 
+<< bt_list >>: [{'name': 'assembly', 'type': 3}]
+can only concatenate str (not "xml.etree.ElementTree.Element") to str
+<< llm_combine_result >>: 
+<rule>
+     <pattern>task execution:.*assemble.*parts.*(and|,).*(package|prepare).*</pattern>
+     <code>
+def get_bt(bt_list):
+     root = None
+     for bt in bt_list:
+         if root is None:
+             root = create_bt_node(bt['name'])
+         else:
+             node = create_bt_node(bt['name'])
+             root.add_child(node)
+     return root
+bt = get_bt(bt_list)
+     </code>
+</rule>
+level1_count: 2
+can_create_level1_count: 1
+can_create_level1_count_percent: 0.5
+level2_count: 4
+can_create_level2_count: 1
+can_create_level2_count_percent: 0.25
+level3_count: 2
+can_create_level3_count: 1
+can_create_level3_count_percent: 0.5
+all_count: 5
+can_create_all_percent: 0.6
+<assembly name="assembly" />
+  
+0.8933911522614787
+SUCCESS
+##############################################################################################################################
+------------------------------  dataset info: --------------------------------------------------------------------------------
+1
+Create a parallel node with check_assembly and interrupt_assembly as child nodes.
+<parallel name="parallel" type="controller">
+                <check_assembly name="check_assembly" type="action" />
+                <interrupt_assembly name="interrupt_assembly" type="action" />
+            </parallel>
+        
+------------------------------  parser info:  --------------------------------------------------------------------------------
+<< Input sent >>: create a parallel node with check_assembly and interrupt_assembly as child nodes
+<< Sent level >>: 1
+<< create_level1_bt_list >> method is executed !!!
+parallel 对比的是root_name: parallel
+check_assembly 对比的是root_name: check_assembly
+interrupt_assembly 对比的是root_name: interrupt_assembly
+<< bt_list >>: [{'name': 'parallel', 'type': 1}, {'name': 'check_assembly', 'type': 3}, {'name': 'interrupt_assembly', 'type': 3}]
+<< combine_level1_bt >> method is executed !!!
+Error llm: syntax error: line 1, column 0
+Error llm: junk after document element: line 16, column 0
+Error llm: junk after document element: line 16, column 0
+Error: llm can't generate rules !!!
+##############################################################################################################################
+------------------------------  dataset info: --------------------------------------------------------------------------------
+1
+Generate a selector node followed by adding child nodes grab_parts and correct_positioning.
+<selector name="selector" type="controller">
+                <grab_parts name="grab_parts" type="action" />
+                <correct_positioning name="correct_positioning" type="condition" />
+            </selector>
+        
+------------------------------  parser info:  --------------------------------------------------------------------------------
+<< Input sent >>: generate a selector node followed by adding child nodes grab_parts and correct_positioning
+<< Sent level >>: 1
+<< create_level1_bt_list >> method is executed !!!
+selector 对比的是root_name: selector
+grab_parts 对比的是root_name: grab_parts
+correct_positioning 对比的是root_name: correct_positioning
+<< bt_list >>: [{'name': 'selector', 'type': 1}, {'name': 'grab_parts', 'type': 3}, {'name': 'correct_positioning', 'type': 2}]
+<< combine_level1_bt >> method is executed !!!
+level1_count: 4
+can_create_level1_count: 2
+can_create_level1_count_percent: 0.5
+level2_count: 4
+can_create_level2_count: 1
+can_create_level2_count_percent: 0.25
+level3_count: 2
+can_create_level3_count: 1
+can_create_level3_count_percent: 0.5
+all_count: 7
+can_create_all_percent: 0.5714285714285714
+<selector name="selector">
+      <grab_parts name="grab_parts" />
+      <correct_positioning name="correct_positioning" />
+    </selector>
+  
+0.9655525623719448
+correct_create_level1_count: 2
+correct_create_level1_count_percent: 0.5
+correct_create_level2_count: 1
+correct_create_level2_count_percent: 0.25
+correct_create_level3_count: 0
+correct_create_level3_count_percent: 0.0
+correct_create_all_percent: 0.42857142857142855
+##############################################################################################################################
+------------------------------  dataset info: --------------------------------------------------------------------------------
+1
+Create a parallel node with positioning_parts and grab_parts as child nodes.
+<parallel name="parallel" type="controller">
+                <positioning_parts name="positioning_parts" type="condition" />
+                <grab_parts name="grab_parts" type="action" />
+            </parallel>
+        
+------------------------------  parser info:  --------------------------------------------------------------------------------
+<< Input sent >>: create a parallel node with positioning_parts and grab_parts as child nodes
+<< Sent level >>: 1
+<< create_level1_bt_list >> method is executed !!!
+parallel 对比的是root_name: parallel
+positioning_parts 对比的是root_name: positioning_parts
+grab_parts 对比的是root_name: grab_parts
+<< bt_list >>: [{'name': 'parallel', 'type': 1}, {'name': 'positioning_parts', 'type': 3}, {'name': 'grab_parts', 'type': 3}]
+<< combine_level1_bt >> method is executed !!!
+Error: llm can't generate rules !!!
+##############################################################################################################################
+------------------------------  dataset info: --------------------------------------------------------------------------------
+1
+Generate a selector node followed by adding child nodes parts_detection and correct_positioning.
+<selector name="selector" type="controller">
+                <parts_detection name="parts_detection" type="condition" />
+                <correct_positioning name="correct_positioning" type="condition" />
+            </selector>
+        
+------------------------------  parser info:  --------------------------------------------------------------------------------
+<< Input sent >>: generate a selector node followed by adding child nodes parts_detection and correct_positioning
+<< Sent level >>: 1
+<< create_level1_bt_list >> method is executed !!!
+selector 对比的是root_name: selector
+parts_detection 对比的是root_name: parts_detection
+correct_positioning 对比的是root_name: correct_positioning
+<< bt_list >>: [{'name': 'selector', 'type': 1}, {'name': 'parts_detection', 'type': 2}, {'name': 'correct_positioning', 'type': 2}]
+<< combine_level1_bt >> method is executed !!!
+level1_count: 6
+can_create_level1_count: 3
+can_create_level1_count_percent: 0.5
+level2_count: 4
+can_create_level2_count: 1
+can_create_level2_count_percent: 0.25
+level3_count: 2
+can_create_level3_count: 1
+can_create_level3_count_percent: 0.5
+all_count: 9
+can_create_all_percent: 0.5555555555555556
+<selector name="selector">
+      <parts_detection name="parts_detection" />
+      <correct_positioning name="correct_positioning" />
+    </selector>
+  
+0.9727225968285076
+correct_create_level1_count: 3
+correct_create_level1_count_percent: 0.5
+correct_create_level2_count: 1
+correct_create_level2_count_percent: 0.25
+correct_create_level3_count: 0
+correct_create_level3_count_percent: 0.0
+correct_create_all_percent: 0.4444444444444444
+##############################################################################################################################
+------------------------------  dataset info: --------------------------------------------------------------------------------
+1
+Create a sequence node with grab_parts and assembly as child nodes.
+<sequence name="sequence" type="controller">
+                <grab_parts name="grab_parts" type="action" />
+                <assembly name="assembly" type="controller">
+                    <assembly_parts name="assembly_parts" type="action" />
+                </assembly>
+            </sequence>
+        
+------------------------------  parser info:  --------------------------------------------------------------------------------
+<< Input sent >>: create a sequence node with grab_parts and assembly as child nodes
+<< Sent level >>: 1
+<< create_level1_bt_list >> method is executed !!!
+sequence 对比的是root_name: sequence
+grab_parts 对比的是root_name: grab_parts
+assembly 对比的是root_name: assembly
+<< bt_list >>: [{'name': 'sequence', 'type': 1}, {'name': 'grab_parts', 'type': 3}, {'name': 'assembly', 'type': 3}]
+<< combine_level1_bt >> method is executed !!!
+Error: llm can't generate rules !!!
+##############################################################################################################################
+------------------------------  dataset info: --------------------------------------------------------------------------------
+2
+Retrieve the parts that meet the positioning requirements and check the quality after assembly.
+<sequence name="sequence" type="controller">
+                <positioning_parts name="positioning_parts" type="condition" />
+                <assembly name="assembly" type="controller">
+                    <assembly_parts name="assembly_parts" type="action" />
+                </assembly>
+                <check_assembly name="check_assembly" type="action" />
+            </sequence>
+        
+------------------------------  parser info:  --------------------------------------------------------------------------------
+<< Input sent >>: retrieve the parts that meet the positioning requirements and check the quality after assembly
+<< Sent level >>: 2
+<< create_level2_bt_list >> method is executed !!!
+<< bt_desc_list >>: ['retrieve the parts that meet the positioning requirements', 'check the quality after assembly']
+retrieve the parts that meet the positioning requirements 对比的是synonyms_vector: otherwise assemble the parts
+check the quality after assembly 对比的是synonyms_vector: check the assembly
+<< bt_list >>: [{'name': 'assembly', 'type': 3}, {'name': 'check_assembly', 'type': 3}]
+Error llm: 'assembly' object has no attribute 'add_child'
+Error llm: name 'bt_create' is not defined
+Error llm: 'assembly' object has no attribute 'add_child'
+Error: llm can't generate rules !!!
+##############################################################################################################################
+------------------------------  dataset info: --------------------------------------------------------------------------------
+2
+Check that all parts needed for assembly are available, then start the assembly process.
+<sequence name="sequence" type="controller">
+                <parts_detection name="parts_detection" type="condition" />
+                <assembly name="assembly" type="controller">
+                    <assembly_parts name="assembly_parts" type="action" />
+                </assembly>
+            </sequence>
+        
+------------------------------  parser info:  --------------------------------------------------------------------------------
+<< Input sent >>: check that all parts needed for assembly are available, then start the assembly process
+<< Sent level >>: 2
+<< create_level2_bt_list >> method is executed !!!
+<< bt_desc_list >>: ['check that all parts needed for assembly ']
+check that all parts needed for assembly  对比的是synonyms_name: check that all parts needed for assembly 
+<< bt_list >>: [{'name': 'parts_detection', 'type': 2}]
+can only concatenate str (not "xml.etree.ElementTree.Element") to str
+<< llm_combine_result >>: 
+<rule>
+     <pattern>(check|verify|ensure).*(available|present|exist).*(start|begin|commence|initiate).*</pattern>
+     <code>
+def get_bt(bt_list):
+     root = create_bt_node('sequence')
+     parts = create_bt_node('parts_detection')
+     assembly = create_bt_node('assembly')
+     root.add_child(parts)
+     root.add_child(assembly)
+     return root
+bt = get_bt(bt_list)
+     </code>
+</rule>
+level1_count: 7
+can_create_level1_count: 3
+can_create_level1_count_percent: 0.42857142857142855
+level2_count: 6
+can_create_level2_count: 2
+can_create_level2_count_percent: 0.3333333333333333
+level3_count: 2
+can_create_level3_count: 1
+can_create_level3_count_percent: 0.5
+all_count: 12
+can_create_all_percent: 0.5
+<sequence name="sequence">
+      <parts_detection name="parts_detection" />
+      <assembly name="assembly" />
+    </sequence>
+  
+0.9627380168045524
+correct_create_level1_count: 3
+correct_create_level1_count_percent: 0.42857142857142855
+correct_create_level2_count: 2
+correct_create_level2_count_percent: 0.3333333333333333
+correct_create_level3_count: 0
+correct_create_level3_count_percent: 0.0
+correct_create_all_percent: 0.4166666666666667
+##############################################################################################################################
+------------------------------  dataset info: --------------------------------------------------------------------------------
+2
+Retrieve the necessary parts and position them correctly before assembly.
+<sequence name="sequence" type="controller">
+                <positioning_parts name="positioning_parts" type="condition" />
+                <grab_parts name="grab_parts" type="action" />
+                <assembly name="assembly" type="controller">
+                    <assembly_parts name="assembly_parts" type="action" />
+                </assembly>
+            </sequence>
+        
+------------------------------  parser info:  --------------------------------------------------------------------------------
+<< Input sent >>: retrieve the necessary parts and position them correctly before assembly
+<< Sent level >>: 2
+<< create_level2_bt_list >> method is executed !!!
+<< bt_desc_list >>: ['retrieve the necessary parts', 'position them correctly before assembly']
+retrieve the necessary parts 对比的是synonyms_vector: otherwise assemble the parts
+position them correctly before assembly 对比的是synonyms_name: position them correctly before assembly
+<< bt_list >>: [{'name': 'assembly', 'type': 3}, {'name': 'positioning_parts', 'type': 3}]
+Error llm: 'assembly' object has no attribute 'add_child'
+Error llm: 'assembly' object has no attribute 'add_child'
+Error llm: 'assembly' object has no attribute 'add_child'
+Error: llm can't generate rules !!!
+##############################################################################################################################
+------------------------------  dataset info: --------------------------------------------------------------------------------
+3
+Execution task: Complete the product assembly.
+<selector name="assembly" type="controller">
+                <positioning_parts name="positioning_parts" type="condition" />
+                <correct_positioning name="correct_positioning" type="condition" />
+                <envs_safety name="envs_safety" type="condition" />
+                <sequence name="sequence" type="controller">
+                    <parts_detection name="parts_detection" type="condition" />
+                    <assembly name="assembly" type="controller">
+                        <assembly_parts name="assembly_parts" type="action" />
+                    </assembly>
+                </sequence>
+            </selector>
+        
+------------------------------  parser info:  --------------------------------------------------------------------------------
+<< Input sent >>: execution task: complete the product assembly
+<< Sent level >>: 3
+<< create_level3_bt_list >> method is executed !!!
+xml parse fail !!![Errno 2] No such file or directory: '<rule>\n    <sent>Execute the task: complete the product assembly</sent>\n    <steps>\n        <step>Check if all required parts are available and undamaged</step>\n        <step>Check if the environment is safe for assembly</step>\n        <step>Position the parts correctly before assembly</step>\n        <step>Grab the parts needed for assembly</step>\n        <step>Assemble the parts</step>\n        <step>Check the quality and correctness of the assembly</step>\n        <step>Interrupt the assembly if encountering obstacles or dangerous situations</step>\n        <step>Request human assistance if necessary</step>\n    </steps>\n</rule>'
+ERROR: << bt_desc_list >> is None. LLM can't generate it!!
+ERROR: << bt_desc_list >> is None. LLM can't generate it!!
+##############################################################################################################################
+------------------------------  dataset info: --------------------------------------------------------------------------------
+1
+Create a sequence node, then add child nodes correct_positioning and assembly.
+<sequence name="sequence" type="controller">
+                <correct_positioning name="correct_positioning" type="condition" />
+                <assembly name="assembly" type="controller">
+                    <assembly_parts name="assembly_parts" type="action" />
+                </assembly>
+            </sequence>
+        
+------------------------------  parser info:  --------------------------------------------------------------------------------
+<< Input sent >>: create a sequence node, then add child nodes correct_positioning and assembly
+<< Sent level >>: 1
+<< create_level1_bt_list >> method is executed !!!
+sequence 对比的是root_name: sequence
+correct_positioning 对比的是root_name: correct_positioning
+assembly 对比的是root_name: assembly
+<< bt_list >>: [{'name': 'sequence', 'type': 1}, {'name': 'correct_positioning', 'type': 2}, {'name': 'assembly', 'type': 3}]
+<< combine_level1_bt >> method is executed !!!
+Error: llm can't generate rules !!!
+##############################################################################################################################
+------------------------------  dataset info: --------------------------------------------------------------------------------
+1
+Generate a parallel node, then add child nodes grab_parts and request_help.
+<parallel name="parallel" type="controller">
+                <grab_parts name="grab_parts" type="action" />
+                <request_help name="request_help" type="action" />
+            </parallel>
+        
+------------------------------  parser info:  --------------------------------------------------------------------------------
+<< Input sent >>: generate a parallel node, then add child nodes grab_parts and request_help
+<< Sent level >>: 1
+<< create_level1_bt_list >> method is executed !!!
+parallel 对比的是root_name: parallel
+grab_parts 对比的是root_name: grab_parts
+request_help 对比的是root_name: request_help
+<< bt_list >>: [{'name': 'parallel', 'type': 1}, {'name': 'grab_parts', 'type': 3}, {'name': 'request_help', 'type': 3}]
+<< combine_level1_bt >> method is executed !!!
+Error: llm can't generate rules !!!
+##############################################################################################################################
+------------------------------  dataset info: --------------------------------------------------------------------------------
+1
+Create a selector node, then add child nodes correct_positioning and envs_safety.
+<selector name="selector" type="controller">
+                <correct_positioning name="correct_positioning" type="condition" />
+                <envs_safety name="envs_safety" type="condition" />
+            </selector>
+        
+------------------------------  parser info:  --------------------------------------------------------------------------------
+<< Input sent >>: create a selector node, then add child nodes correct_positioning and envs_safety
+<< Sent level >>: 1
+<< create_level1_bt_list >> method is executed !!!
+selector 对比的是root_name: selector
+correct_positioning 对比的是root_name: correct_positioning
+envs_safety 对比的是root_name: envs_safety
+<< bt_list >>: [{'name': 'selector', 'type': 1}, {'name': 'correct_positioning', 'type': 2}, {'name': 'envs_safety', 'type': 2}]
+<< combine_level1_bt >> method is executed !!!
+level1_count: 10
+can_create_level1_count: 4
+can_create_level1_count_percent: 0.4
+level2_count: 7
+can_create_level2_count: 2
+can_create_level2_count_percent: 0.2857142857142857
+level3_count: 3
+can_create_level3_count: 1
+can_create_level3_count_percent: 0.3333333333333333
+all_count: 17
+can_create_all_percent: 0.4117647058823529
+<selector name="selector">
+      <correct_positioning name="correct_positioning" />
+      <envs_safety name="envs_safety" />
+    </selector>
+  
+0.9740378063635813
+correct_create_level1_count: 4
+correct_create_level1_count_percent: 0.4
+correct_create_level2_count: 2
+correct_create_level2_count_percent: 0.2857142857142857
+correct_create_level3_count: 0
+correct_create_level3_count_percent: 0.0
+correct_create_all_percent: 0.35294117647058826
+##############################################################################################################################
+------------------------------  dataset info: --------------------------------------------------------------------------------
+1
+Generate a sequence node, then add child nodes correct_positioning and grab_parts.
+<sequence name="sequence" type="controller">
+                <correct_positioning name="correct_positioning" type="condition" />
+                <grab_parts name="grab_parts" type="action" />
+            </sequence>
+        
+------------------------------  parser info:  --------------------------------------------------------------------------------
+<< Input sent >>: generate a sequence node, then add child nodes correct_positioning and grab_parts
+<< Sent level >>: 1
+<< create_level1_bt_list >> method is executed !!!
+sequence 对比的是root_name: sequence
+correct_positioning 对比的是root_name: correct_positioning
+grab_parts 对比的是root_name: grab_parts
+<< bt_list >>: [{'name': 'sequence', 'type': 1}, {'name': 'correct_positioning', 'type': 2}, {'name': 'grab_parts', 'type': 3}]
+<< combine_level1_bt >> method is executed !!!
+Error: llm can't generate rules !!!
+##############################################################################################################################
+------------------------------  dataset info: --------------------------------------------------------------------------------
+1
+Create a selector node, then add child nodes part_status and check_assembly.
+<selector name="selector" type="controller">
+                <part_status name="part_status" type="condition" />
+                <check_assembly name="check_assembly" type="action" />
+            </selector>
+        
+------------------------------  parser info:  --------------------------------------------------------------------------------
+<< Input sent >>: create a selector node, then add child nodes part_status and check_assembly
+<< Sent level >>: 1
+<< create_level1_bt_list >> method is executed !!!
+selector 对比的是root_name: selector
+part_status 对比的是root_name: part_status
+check_assembly 对比的是root_name: check_assembly
+<< bt_list >>: [{'name': 'selector', 'type': 1}, {'name': 'part_status', 'type': 2}, {'name': 'check_assembly', 'type': 3}]
+<< combine_level1_bt >> method is executed !!!
+level1_count: 12
+can_create_level1_count: 5
+can_create_level1_count_percent: 0.4166666666666667
+level2_count: 7
+can_create_level2_count: 2
+can_create_level2_count_percent: 0.2857142857142857
+level3_count: 3
+can_create_level3_count: 1
+can_create_level3_count_percent: 0.3333333333333333
+all_count: 19
+can_create_all_percent: 0.42105263157894735
+<selector name="selector">
+      <part_status name="part_status" />
+      <check_assembly name="check_assembly" />
+    </selector>
+  
+0.9677757449983717
+correct_create_level1_count: 5
+correct_create_level1_count_percent: 0.4166666666666667
+correct_create_level2_count: 2
+correct_create_level2_count_percent: 0.2857142857142857
+correct_create_level3_count: 0
+correct_create_level3_count_percent: 0.0
+correct_create_all_percent: 0.3684210526315789
+##############################################################################################################################
+------------------------------  dataset info: --------------------------------------------------------------------------------
+1
+Generate a sequence node, then add child nodes correct_positioning and positioning_parts.
+<sequence name="sequence" type="controller">
+                <correct_positioning name="correct_positioning" type="condition" />
+                <positioning_parts name="positioning_parts" type="action" />
+            </sequence>
+        
+------------------------------  parser info:  --------------------------------------------------------------------------------
+<< Input sent >>: generate a sequence node, then add child nodes correct_positioning and positioning_parts
+<< Sent level >>: 1
+<< create_level1_bt_list >> method is executed !!!
+sequence 对比的是root_name: sequence
+correct_positioning 对比的是root_name: correct_positioning
+positioning_parts 对比的是root_name: positioning_parts
+<< bt_list >>: [{'name': 'sequence', 'type': 1}, {'name': 'correct_positioning', 'type': 2}, {'name': 'positioning_parts', 'type': 3}]
+<< combine_level1_bt >> method is executed !!!
+Error: llm can't generate rules !!!
+##############################################################################################################################
+------------------------------  dataset info: --------------------------------------------------------------------------------
+1
+Create a selector node, then add child nodes parts_detection and interrupt_assembly.
+<selector name="selector" type="controller">
+                <parts_detection name="parts_detection" type="condition" />
+                <interrupt_assembly name="interrupt_assembly" type="action" />
+            </selector>
+        
+------------------------------  parser info:  --------------------------------------------------------------------------------
+<< Input sent >>: create a selector node, then add child nodes parts_detection and interrupt_assembly
+<< Sent level >>: 1
+<< create_level1_bt_list >> method is executed !!!
+selector 对比的是root_name: selector
+parts_detection 对比的是root_name: parts_detection
+interrupt_assembly 对比的是root_name: interrupt_assembly
+<< bt_list >>: [{'name': 'selector', 'type': 1}, {'name': 'parts_detection', 'type': 2}, {'name': 'interrupt_assembly', 'type': 3}]
+<< combine_level1_bt >> method is executed !!!
+level1_count: 14
+can_create_level1_count: 6
+can_create_level1_count_percent: 0.42857142857142855
+level2_count: 7
+can_create_level2_count: 2
+can_create_level2_count_percent: 0.2857142857142857
+level3_count: 3
+can_create_level3_count: 1
+can_create_level3_count_percent: 0.3333333333333333
+all_count: 21
+can_create_all_percent: 0.42857142857142855
+<selector name="selector">
+      <parts_detection name="parts_detection" />
+      <interrupt_assembly name="interrupt_assembly" />
+    </selector>
+  
+0.9625831705865692
+correct_create_level1_count: 6
+correct_create_level1_count_percent: 0.42857142857142855
+correct_create_level2_count: 2
+correct_create_level2_count_percent: 0.2857142857142857
+correct_create_level3_count: 0
+correct_create_level3_count_percent: 0.0
+correct_create_all_percent: 0.38095238095238093
+##############################################################################################################################
+------------------------------  dataset info: --------------------------------------------------------------------------------
+1
+Generate a parallel node, then add child nodes assembly and check_assembly.
+<parallel name="parallel" type="controller">
+                <assembly name="assembly" type="controller">
+                    <assembly_parts name="assembly_parts" type="action" />
+                </assembly>
+                <check_assembly name="check_assembly" type="action" />
+            </parallel>
+        
+------------------------------  parser info:  --------------------------------------------------------------------------------
+<< Input sent >>: generate a parallel node, then add child nodes assembly and check_assembly
+<< Sent level >>: 1
+<< create_level1_bt_list >> method is executed !!!
+parallel 对比的是root_name: parallel
+assembly 对比的是root_name: assembly
+check_assembly 对比的是root_name: check_assembly
+<< bt_list >>: [{'name': 'parallel', 'type': 1}, {'name': 'assembly', 'type': 3}, {'name': 'check_assembly', 'type': 3}]
+<< combine_level1_bt >> method is executed !!!
+Error: llm can't generate rules !!!
+##############################################################################################################################
+------------------------------  dataset info: --------------------------------------------------------------------------------
+2
+Grab the necessary parts, position them correctly, and then assemble the parts.
+<sequence name="sequence" type="controller">
+                <grab_parts name="grab_parts" type="action" />
+                <positioning_parts name="positioning_parts" type="action" />
+                <assembly name="assembly" type="controller">
+                    <assembly_parts name="assembly_parts" type="action" />
+                </assembly>
+            </sequence>
+        
+------------------------------  parser info:  --------------------------------------------------------------------------------
+<< Input sent >>: grab the necessary parts, position them correctly, and then assemble the parts
+<< Sent level >>: 2
+<< create_level2_bt_list >> method is executed !!!
+ERROR: << bt_desc_list >> is None. LLM can't generate it!!
+ERROR: << bt_desc_list >> is None. LLM can't generate it!!
+##############################################################################################################################
+------------------------------  dataset info: --------------------------------------------------------------------------------
+2
+Check the component status, and then assemble the parts.
+<sequence name="sequence" type="controller">
+                <part_status name="part_status" type="condition" />
+                <assembly name="assembly" type="controller">
+                    <assembly_parts name="assembly_parts" type="action" />
+                </assembly>
+            </sequence>
+        
+------------------------------  parser info:  --------------------------------------------------------------------------------
+<< Input sent >>: check the component status, and then assemble the parts
+<< Sent level >>: 2
+<< create_level2_bt_list >> method is executed !!!
+<< bt_desc_list >>: ['check the component status', 'assemble ']
+part_status 对比的是root_name: part_status
+synonyms save dir: bt_library/manufacturing_assembly/conditions\part_status.xml
+<< llm bt_desc to bt_name >>: check the component status == part_status
+assemble  对比的是synonyms_vector: assemble
+<< bt_list >>: [{'name': 'part_status', 'type': 2}, {'name': 'assembly', 'type': 3}]
+Error llm: 'part_status' object has no attribute 'add_child'
+Error llm: name 'bt_create' is not defined
+Error llm: name 'bt_create' is not defined
+Error: llm can't generate rules !!!
+##############################################################################################################################
+------------------------------  dataset info: --------------------------------------------------------------------------------
+2
+Check the component status, and then check the assembly quality.
+<sequence name="sequence" type="controller">
+                <part_status name="part_status" type="condition" />
+                <check_assembly name="check_assembly" type="action" />
+            </sequence>
+        
+------------------------------  parser info:  --------------------------------------------------------------------------------
+<< Input sent >>: check the component status, and then check the assembly quality
+<< Sent level >>: 2
+<< create_level2_bt_list >> method is executed !!!
+<< bt_desc_list >>: ['check the component status', 'check ']
+part_status 对比的是root_name: part_status
+synonyms save dir: bt_library/manufacturing_assembly/conditions\part_status.xml
+<< llm bt_desc to bt_name >>: check the component status == part_status
+Error: No corresponding behavior tree node is parsed by llm.  bt_desc 'check ' 
+<< bt_list >>: [{'name': 'part_status', 'type': 2}]
+can only concatenate str (not "xml.etree.ElementTree.Element") to str
+<< llm_combine_result >>: 
+<rule>
+     <pattern>(check|inspect|test).*(and then|,).*(check|inspect|test).*</pattern>
+     <code>
+def get_bt(bt_list):
+     root = create_bt_node('sequence')
+     for bt in bt_list:
+         node = create_bt_node(bt['name'])
+         root.add_child(node)
+     return root
+bt = get_bt(bt_list)
+     </code>
+</rule>
+level1_count: 15
+can_create_level1_count: 6
+can_create_level1_count_percent: 0.4
+level2_count: 10
+can_create_level2_count: 3
+can_create_level2_count_percent: 0.3
+level3_count: 3
+can_create_level3_count: 1
+can_create_level3_count_percent: 0.3333333333333333
+all_count: 25
+can_create_all_percent: 0.4
+<sequence name="sequence">
+      <part_status name="part_status" />
+    </sequence>
+  
+0.9562622735325942
+correct_create_level1_count: 6
+correct_create_level1_count_percent: 0.4
+correct_create_level2_count: 3
+correct_create_level2_count_percent: 0.3
+correct_create_level3_count: 0
+correct_create_level3_count_percent: 0.0
+correct_create_all_percent: 0.36
+##############################################################################################################################
+------------------------------  dataset info: --------------------------------------------------------------------------------
+3
+Execution task: Assemble the parts safely and correctly.
+<selector name="assembly" type="controller">
+                <envs_safety name="envs_safety" type="condition" />
+                <sequence name="sequence" type="controller">
+                    <correct_positioning name="correct_positioning" type="condition" />
+                    <assembly name="assembly" type="controller">
+                        <assembly_parts name="assembly_parts" type="action" />
+                    </assembly>
+                </sequence>
+            </selector>
+        
+------------------------------  parser info:  --------------------------------------------------------------------------------
+<< Input sent >>: execution task: assemble the parts safely and correctly
+<< Sent level >>: 3
+<< create_level3_bt_list >> method is executed !!!
+xml parse fail !!![Errno 2] No such file or directory: '<rule>\n    <sent>Execute the task: assemble the parts safely and correctly</sent>\n    <steps>\n        <step>Check if all parts needed for assembly are present and undamaged</step>\n        <step>Check for any dangerous objects or obstacles in the environment</step>\n        <step>Position the parts correctly before assembly</step>\n        <step>Grab the parts needed for assembly</step>\n        <step>Assemble the parts using appropriate tools</step>\n        <step>Check the quality and correctness of the assembly</step>\n        <step>Interrupt the assembly if any dangerous situations are encountered</step>\n        <step>Request human assistance if needed</step>\n        <step>Complete the assembly process</step>\n    </steps>\n</rule>'
+ERROR: << bt_desc_list >> is None. LLM can't generate it!!
+ERROR: << bt_desc_list >> is None. LLM can't generate it!!
+##############################################################################################################################
+------------------------------  dataset info: --------------------------------------------------------------------------------
+1
+Create a sequence node, then add child nodes correct_positioning and assembly.
+<sequence name="sequence" type="controller">
+                <correct_positioning name="correct_positioning" type="condition" />
+                <assembly name="assembly" type="controller">
+                    <assembly_parts name="assembly_parts" type="action" />
+                </assembly>
+            </sequence>
+        
+------------------------------  parser info:  --------------------------------------------------------------------------------
+<< Input sent >>: create a sequence node, then add child nodes correct_positioning and assembly
+<< Sent level >>: 1
+<< create_level1_bt_list >> method is executed !!!
+sequence 对比的是root_name: sequence
+correct_positioning 对比的是root_name: correct_positioning
+assembly 对比的是root_name: assembly
+<< bt_list >>: [{'name': 'sequence', 'type': 1}, {'name': 'correct_positioning', 'type': 2}, {'name': 'assembly', 'type': 3}]
+<< combine_level1_bt >> method is executed !!!
+
+Process finished with exit code -1

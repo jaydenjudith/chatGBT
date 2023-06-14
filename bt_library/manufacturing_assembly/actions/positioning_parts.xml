@@ -4,5 +4,7 @@
         <synonyms name="locating parts"/>
         <synonyms name="定位零件"/>
         <synonyms name="将零件放置在正确的位置"/>
+        <synonyms name="position the parts"/>
+        <synonyms name="position them correctly before assembly"/>
     </action>
 </root>

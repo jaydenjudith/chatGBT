@@ -1,8 +1,8 @@
 <?xml version='1.0' encoding='UTF-8'?>
 <root>
-  <task name="temp">
+  <task name="avoid_obstacle">
     <sequence name="sequence">
-      <part_status name="part_status"/>
+      <grab_parts name="grab_parts"/>
     </sequence>
   </task>
 </root>

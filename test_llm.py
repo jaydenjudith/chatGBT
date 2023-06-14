@@ -1,6 +1,6 @@
 from llm.llm import *
-from bt_builder.level2_parser import *
-from bt_composition_planner.level1_parser import *
+from bt_builder.level2 import *
+from bt_composite_planner.level1 import *
 
 
 def test_level2_builder_prompt():
@@ -11,7 +11,7 @@ def test_level2_builder_prompt():
     result = get_completion(prompt, temperature=0, model="gpt-3.5-turbo")
     print(result)
     # 将该正则表达式添加到文件中
-    filename = dir_root + "bt_builder/level2_generator_rules.xml"
+    filename = dir_root + "bt_builder/level2_bt_list_rules.xml"
     with open(filename, 'r') as file:
         lines = file.readlines()
     # 找到最后一个非空行的索引
